@@ -1,0 +1,121 @@
+package com.torryharris.lab;
+ 
+public interface Bank {
+
+    void withDraw(int amount);
+    void deposit(int amount);
+    void showBalance();
+ 
+}
+
+
+
+
+package com.torryharris.lab;
+ 
+public class SBIBank implements Bank {
+
+    private int balance;
+
+    SBIBank(int amount){
+        this.balance = amount;
+
+    }
+ 
+    @Override
+    public void withDraw(int amount) {
+        if(amount < balance)
+            balance = balance - amount;
+            else System.out.println("From SBIBank......InSufficient Funds");
+    }
+ 
+    @Override
+    public void deposit(int amount) {
+        if(amount < 50000)
+        balance = balance + amount;
+        else System.out.println("From SBIBank...... Not possible to depost");
+    }
+ 
+    @Override
+    public void showBalance() {
+        System.out.println("From SBIBank...... Availiable Balance ...."+balance);
+    }
+
+    public void licPolicy() {
+        System.out.println("From SBIBank......licPolicy");
+    }
+ 
+}
+
+
+package com.torryharris.lab;
+ 
+public class AXISBank implements Bank {
+
+    private int balance;
+
+    AXISBank(int amount){
+        this.balance = amount;
+
+    }
+ 
+    @Override
+    public void withDraw(int amount) {
+        if(amount < balance)
+            balance = balance - amount;
+            else System.out.println("From AXISBank......InSufficient Funds");
+    }
+ 
+    @Override
+    public void deposit(int amount) {
+        if(amount < 200000)
+        balance = balance + amount;
+        else System.out.println("From AXISBank...... Not possible to depost");
+    }
+ 
+    @Override
+    public void showBalance() {
+        System.out.println("From AXISBank...... Availiable Balance ...."+balance);
+    }
+ 
+}
+
+
+
+package com.torryharris.lab;
+ 
+public class MainBank {
+ 
+    public static void main(String[] args) {
+
+    /*SBIBank sbiBank = new SBIBank(15000);
+    AXISBank aXISBank = new AXISBank(35000);
+
+    sbiBank.showBalance();
+    aXISBank.showBalance();
+
+    sbiBank.deposit(25000);
+    sbiBank.withDraw(15000);
+    sbiBank.showBalance();
+
+    sbiBank.withDraw(55000);*/
+
+
+    //Bank bank;
+
+    SBIBank bank = new SBIBank(15000);
+
+    bank.licPolicy();
+
+    bank.showBalance();
+
+    //bank = new AXISBank(35000);
+
+    //bank.showBalance();
+
+}
+}
+
+    }
+ 
+}

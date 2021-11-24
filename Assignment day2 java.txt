@@ -1,0 +1,251 @@
+
+1.write a program to find sum of the smallest and highest prime number in a given range?
+
+package com.Assignments;
+import java.util.ArrayList;
+import java.util.Scanner;
+public class One {
+
+        public static void main(String[] args) {
+            int count=0;
+            Scanner s=new Scanner(System.in);
+            System.out.println("Enter the range :");
+            ArrayList<Integer> a=new ArrayList();
+            int num1=s.nextInt();
+            int num2=s.nextInt();
+            for(int i=num1;i<=num2;i++)
+            {
+                if( isPrime(i) == true)
+                {
+                    a.add(i);
+                    count++;
+                }
+            }
+            count--;
+            System.out.println(a);
+            int sum=a.get(0)+a.get(count);
+            System.out.println(sum);
+        }
+        static boolean isPrime(int n)
+        {
+            boolean res = false;
+            int i;
+            for(i=2;(i<=n/2) && (n % i != 0);i++);
+            {
+                if (i > n / 2) {
+                    res = true;
+                }
+            }
+            return res;
+        }
+    }
+
+
+
+
+import java.util.Scanner;
+ 
+public class Demo {
+ 
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        int n1 = scanner.nextInt();
+        int n2 = scanner.nextInt();
+
+        boolean isFirst = false;
+        int firstPrimeNo=0;
+        int lastPrimeNo=0;
+        for(int i=n1;i<=n2;i++) {
+
+            if( isPrime(i) == true) {
+
+                if(isFirst == false) {
+                    firstPrimeNo = i;
+                    isFirst = true;
+                }
+
+                lastPrimeNo = i;
+
+            }// if
+    }// for
+
+        System.out.println("Smalest prime No..."+firstPrimeNo+"....Biggest prime No..."+lastPrimeNo);
+
+    }
+ 
+    
+    static boolean isPrime(int n){
+
+        boolean res = false;
+        int i;
+        for(i=2;(i<=n/2) && (n % i != 0);i++);
+
+        if(i>n/2) {
+            res = true;
+        }
+        return res;
+    }
+
+}
+
+
+
+
+
+2.Program to Round a Number to n Decimal Places/////Input....1.34678----OutPut.....1.35
+
+iimport java.util.*;
+
+public class Demo {
+    public static void main(String[] args)
+    {
+        Scanner sc= new Scanner(System.in);
+        System.out.println("enter the number to be rounded-off");
+        double number = sc.nextDouble();
+// rounding number to 2 decimal places
+        System.out.format("%.2f", number);
+    }
+}
+
+
+
+
+public class RoundedNo {​​​​​     public static void main(String[] args) {​​​​​
+
+        float n =  1.34678f;
+
+        int temp  = (int)(n * 1000);// 1346
+
+        int r = temp % 10;/// 1346 % 10...
+
+        if(r >=5)
+
+        {​​​​​
+
+            temp = (temp / 10) + 1;//1346/10 === 134 +1
+
+        }​​​​​
+
+        n = temp / 100.0f;// === 135 / 100.0 ===== 1.35
+
+        System.out.println("Result...."+n);
+
+        // 1.35     }​​​​​ }​​​​​
+
+
+
+3.Write a program to display a number whose digits are 3 greater than the corresponding digits of the number TAKEN.
+For example, if the number is 5696, then output should be 8919
+
+
+import java.util.Scanner;
+ 
+public class GreaterTakenNo {
+ 
+    public static void main(String[] args) {
+
+        // 5696..... 
+        // 8929... 1000 * 8 + 9 * 100 + 2* 10 + 9 * 1
+
+        // 5696...
+
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+
+        int p = 1;
+        int res =0;
+        for(int r=0; n != 0 ;) {
+
+            r = n % 10;// 5696 % 10....6
+            n = n /10; // 569... 56 5 0
+            r = r+3;
+            if(r > 10) {
+                r = r - 10;// 9+3=12-10=2
+                //r = r % 10;// 12 % 10===2
+            }
+            res = res + r * p;
+            p = p* 10;
+
+        }
+
+        System.out.println("result...."+res);
+    }
+ 
+}
+
+
+
+4.Program to  find common elements in three arrays which are sorted? 
+
+Examples: input1 = {​​​​​12, 35, 310, 120, 640, 180}​​​​​
+
+input2 = {​​​​​656, 327, 120, 180, 5600}​​​​​
+
+input3 = {​​​​​33, 44, 515, 120, 330, 770, 180, 1120}​​​​​
+
+Output: 120, 180
+
+
+class Demo
+{
+    void findCommon(int ar1[], int ar2[], int ar3[])
+    {
+        int i = 0, j = 0, k = 0;
+        while (i < ar1.length && j < ar2.length && k < ar3.length)
+        {
+             if (ar1[i] == ar2[j] && ar2[j] == ar3[k])
+             {   System.out.print(ar1[i]+" ");   i++; j++; k++; }
+ 
+             else if (ar1[i] < ar2[j])
+                 i++;
+ 
+             else if (ar2[j] < ar3[k])
+                 j++;
+             else
+                 k++;
+        }
+    }
+
+    public static void main(String args[])
+    {
+        Demo obj = new Demo();
+ 
+        int ar1[] = {1, 5, 10, 20, 40, 80};
+        int ar2[] = {6, 7, 20, 80, 100};
+        int ar3[] = {3, 4, 15, 20, 30, 70, 80, 120};
+ 
+        System.out.print("Common elements are ");
+        obj.findCommon(ar1, ar2, ar3);
+    }
+}
+
+5.find the sum of array elements which repeating 5 times in given 20 elements array?
+
+
+
+package com.Assignments;
+
+public class Third {
+
+        public static void main(String args[]){
+            int[] arr = new int[20];
+            arr = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 16, 16, 16, 16};
+            for(int i=0;i< arr.length-1;i++){
+                int count = 1;
+                for(int j = i+1;j< arr.length;j++){
+                    if(arr[i]==arr[j]) 
+                        count++; 
+                } 
+                if(count==5)
+                    System.out.println(arr[i]*5);
+            }
+        }
+    }
+
+
+
+
+	}
+}
