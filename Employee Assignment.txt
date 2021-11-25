@@ -1,0 +1,209 @@
+package com.collections;
+
+public class Emp {
+    private String empName;
+    private int empId;
+    private String dept;
+    private float salary;
+
+    public Emp(String empName, int empId, String dept, float salary) {
+        this.empName = empName;
+        this.empId = empId;
+        this.dept = dept;
+        this.salary = salary;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public int getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public float getSalary() {
+        return salary;
+    }
+
+    public void setSalary(float salary) {
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Emp{" +
+                "empName='" + empName + '\'' +
+                ", empId='" + empId + '\'' +
+                ", dept='" + dept + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
+}
+
+
+package com.collections;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+
+public class EmpMenu {
+    static Scanner sc = new Scanner(System.in);
+    static List<Emp> empList = new ArrayList<Emp>();
+    public static void main(String[] args) {
+        int choice=0;
+        do {
+            System.out.println("Menu");
+            System.out.println("1.Create");
+            System.out.println("2.Search");
+            System.out.println("3.Update");
+            System.out.println("4.Delete");
+            System.out.println("5.DisplayData");
+            System.out.println("Exit(press -1)");
+
+
+            System.out.println("Please chose your choice");
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                    readEmpData();
+                    break;
+                case 2:
+                    int id;
+                    System.out.println("Enter the id you want to search");
+                    id = sc.nextInt();
+                    searchEmp(id);
+                    break;
+                case 3:
+                    updateEmp();
+                    System.out.println("Updated successfully...");
+                    break;
+                case 4:
+                    System.out.println("Enter the id you want to delete");
+                    id = sc.nextInt();
+                    removeEmp(id);
+                    System.out.println("Student removed successfully...");
+                    break;
+                case 5:
+                    System.out.println(empList);
+                    break;
+                case 6:
+                    System.out.println("Program ends....");
+                    System.exit(0);
+                    break;
+
+            }
+        }while(choice != -1);
+        System.out.println("Program ends");
+
+    }
+
+    private static void readEmpData() {
+        System.out.println("enter Emp Name");
+        String name = sc.next();
+
+        System.out.println("enter Emp ID");
+        int id = sc.nextInt();
+
+        System.out.println("enter Emp Dept");
+        String dept = sc.next();
+
+        System.out.println("enter Emp Salary");
+        float salary = sc.nextFloat();
+
+        Emp newEmp = new Emp(name, id, dept, salary);
+
+        empList.add(newEmp);
+    }
+        private static void searchEmp(int id) {
+            for (int index = 0; index < empList.size(); index++) {
+                Emp emp = empList.get(index);
+                if(emp.getEmpId()==id)
+                    System.out.println(emp);
+            }
+
+        }
+
+        private static void updateEmp() {
+            int id;
+            String name;
+            String dept;
+            float salary;
+            System.out.println("Enter the id you want to update");
+            id = sc.nextInt();
+            System.out.println("Enter the name");
+            name = sc.next();
+            System.out.println("Enter department");
+            dept = sc.next();
+            System.out.println("Enter salary");
+            salary = sc.nextFloat();
+            for(int i = 0;i<empList.size();i++){
+                Emp emp = empList.get(i);
+                if(emp.getEmpId()==id){
+                    emp.setEmpName(name);
+                    emp.setDept(dept);
+                    emp.setSalary(salary);
+                }
+            }
+
+
+        }
+        private static void removeEmp(int id) {
+
+            for(int i = 0; i < empList.size();i++){
+                Emp emp = empList.get(i);
+                if(emp.getEmpId()==id)
+                    empList.remove(emp);
+                System.out.println("Employee data removed...");
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

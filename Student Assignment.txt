@@ -1,0 +1,186 @@
+package com.collections;
+
+public class Student {
+    private String stdName;
+    private int stdId;
+    private String dept;
+    private int marks;
+
+    public Student(String stdName, int stdId, String dept, int marks) {
+        this.stdName = stdName;
+        this.stdId = stdId;
+        this.dept = dept;
+        this.marks = marks;
+    }
+
+    public String getStdName() {
+        return stdName;
+    }
+
+    public void setStdName(String stdName) {
+        this.stdName = stdName;
+    }
+
+    public int getStdId() {
+        return stdId;
+    }
+
+    public void setStdId(int stdId) {
+        this.stdId = stdId;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public int getMarks() {
+        return marks;
+    }
+
+    public void setMarks(int marks) {
+        this.marks = marks;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "stdName='" + stdName + '\'' +
+                ", stdId=" + stdId +
+                ", dept='" + dept + '\'' +
+                ", marks=" + marks +
+                '}';
+    }
+}
+
+
+
+
+package com.collections;
+
+import java.util.*;
+
+public class StudentMenu {
+    static Scanner sc = new Scanner(System.in);
+    static List<Student> stdList = new ArrayList<Student>();
+
+    public static void main(String[] args) {
+        int choice = 0;
+        do {
+            System.out.println("1>Create\n 2>Search\n 3>Update\n 4>Delete\n 5>Display\n 6>Exit\n");
+            System.out.println("Please chose your choice");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    createStudData();
+                    break;
+                case 2:
+                    int id;
+                    System.out.println("Enter the id you want to search");
+                    id = sc.nextInt();
+                    searchStud(id);
+                    break;
+                case 3:
+                    updateStud();
+                    System.out.println("Updated successfully...");
+                    break;
+                case 4:
+                    System.out.println("Enter the id you want to delete");
+                    id = sc.nextInt();
+                    removeStud(id);
+                    System.out.println("Student removed successfully...");
+                    break;
+                case 5:
+                    System.out.println(stdList);
+                    break;
+                case 6:
+                    System.out.println("Program ends....");
+                    System.exit(0);
+                    break;
+
+            }
+        }while(choice != -1);
+        System.out.println("Program ends");
+    }
+
+    private static void createStudData() {
+        System.out.println("Enter Student Name");
+        String name = sc.next();
+
+        System.out.println("Enter Student ID");
+        int id = sc.nextInt();
+
+        System.out.println("Enter Student Dept");
+        String dept = sc.next();
+
+        System.out.println("Enter Student Marks");
+        int marks = sc.nextInt();
+
+        Student newStd = new Student(name,id,dept,marks);
+
+        stdList.add(newStd);
+    }
+    private static void searchStud(int id) {
+        for (int index = 0; index < stdList.size(); index++) {
+            Student std = stdList.get(index);
+            if(std.getStdId()==id)
+                System.out.println(std);
+        }
+
+    }
+
+    private static void updateStud() {
+        int id;
+        String name;
+        String dept;
+        int marks;
+        System.out.println("Enter the id you want to update");
+        id = sc.nextInt();
+        System.out.println("Enter the name");
+        name = sc.next();
+        System.out.println("Enter department");
+        dept = sc.next();
+        System.out.println("Enter marks");
+        marks = sc.nextInt();
+        for(int i = 0;i<stdList.size();i++){
+            Student s = stdList.get(i);
+            if(s.getStdId()==id){
+                s.setStdName(name);
+                s.setDept(dept);
+                s.setMarks(marks);
+            }
+        }
+
+
+    }
+    private static void removeStud(int id) {
+
+        for(int i = 0; i < stdList.size();i++){
+            Student std = stdList.get(i);
+            if(std.getStdId()==id)
+                stdList.remove(std);
+            System.out.println("Student removed...");
+        }
+    }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
