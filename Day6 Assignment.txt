@@ -1,0 +1,161 @@
+package com.Day6Assignment;
+
+import java.util.Scanner;
+
+abstract class Employee {
+ String name,design;
+ int age,salary;
+ Scanner sc = new Scanner(System.in);
+
+ public Employee(){
+  System.out.println("Enter the name");
+  name=sc.next();
+  System.out.println("Enter the age");
+  age=sc.nextInt();
+ }
+ public void display(){
+  System.out.println("/n Name : "+name);
+  System.out.println("Age : "+age);
+  System.out.println("Salary : "+salary);
+  System.out.println("Designation : "+design);
+ }
+ public abstract void raise();
+}
+
+
+
+package com.Day6Assignment;
+
+public final class Clerk extends Employee{
+    public Clerk(){
+        salary=10000;
+        design="Clerk";
+    }
+
+    @Override
+    public void raise() {
+        salary+=1000;
+    }
+}
+
+
+
+package com.Day6Assignment;
+
+public class Manager extends Employee{
+    public Manager(){
+        salary=30000;
+        design="Manager";
+    }
+
+    @Override
+    public void raise() {
+        salary+=7000;
+    }
+}
+
+
+
+
+package com.Day6Assignment;
+
+public class Programmer extends Employee{
+    public Programmer(){
+        salary=20000;
+        design="Programmer";
+    }
+
+    @Override
+    public void raise() {
+        salary+=5000;
+    }
+}
+
+
+
+
+
+
+package com.Day6Assignment;
+
+import java.util.Scanner;
+
+public class Emp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Employee e[] = new Employee[10];
+        int choice=0, c2=0, i=0;
+        do{
+            System.out.println("\n1.Create");
+            System.out.println("2.Display");
+            System.out.println("3.RaiseSalary");
+            System.out.println("4.Exit");
+            System.out.println("Enter you choice");
+            choice=sc.nextInt();
+            switch (choice){
+                case 1:
+                    do {
+                        System.out.println("\n1.Clerk");
+                        System.out.println("2.Programmer");
+                        System.out.println("3.Manager");
+                        System.out.println("4.Exit");
+                        System.out.println("Enter your choice");
+                        c2= sc.nextInt();
+                        switch (c2){
+                            case 1:
+                                e[i] = new Clerk();
+                                i++;
+                                break;
+                            case 2:
+                                e[i] = new Programmer();
+                                i++;
+                                break;
+                            case 3:
+                                e[i] = new Manager();
+                                i++;
+                                break;
+                        }
+                    }while (c2!=4);
+                    break;
+                case 2:
+                    try{
+                        for (Employee x:e){
+                            if(x!=null)
+                                x.display();
+                        }
+                    }catch (Exception ex){
+                        System.out.println("\n No records present.........");
+                    }
+                    break;
+                case 3:
+                    try{
+                        for (Employee x:e){
+                            if(x!=null)
+                                x.raise();
+                        }
+                        System.out.println("\n Salary Raised.....");
+                    }catch (Exception ex){
+                        System.out.println("\n No records present.........");
+                    }
+                    break;
+                case 4:
+                    System.out.println("\n Exiting......");
+                    break;
+                default:
+                    System.out.println("\n Invalid choice...!!");
+            }
+        }while (choice!=4);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
