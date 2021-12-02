@@ -173,6 +173,77 @@ public class ProductMain {
 
 
 
+package com.day9;
+
+public class Teacher {
+    private String name;
+    private int classId;
+
+    public Teacher() {
+        this.name = name;
+        this.classId=classId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String setName(String name) {
+        this.name = name;
+        return name;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+}
+
+
+package com.day9;
+
+public class Class_Id {
+    private int classNo;
+
+    public Class_Id() {
+        this.classNo = classNo;
+    }
+
+    public int getClassNo() {
+        return classNo;
+    }
+
+    public int setClassNo(int classNo) {
+        this.classNo = classNo;
+        return classNo;
+    }
+}
+
+
+package com.day9;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,Integer> map = new HashMap<>();
+        Teacher t = new Teacher();
+        Class_Id c = new Class_Id();
+        map.put(t.setName("sujan"),c.setClassNo(1));
+        map.put(t.setName("ram"),c.setClassNo(2));
+        map.put(t.setName("raj"),c.setClassNo(3));
+        map.put(t.setName("virat"),c.setClassNo(4));
+        map.put(t.setName("ajay"),c.setClassNo(5));
+
+        System.out.println(map);
+
+
+    }
+}
 
 
 
