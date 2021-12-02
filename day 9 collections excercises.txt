@@ -1,0 +1,265 @@
+
+1.
+package com.day9.excercise;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class CollectionTypes {
+    public static void main(String[] args) {
+        Queue<String> x = new LinkedList<>();
+
+        x.add("one");
+        x.add("two");
+        x.add("one");
+        System.out.println(x.poll());
+    }
+}
+
+
+
+
+2.
+package com.day9.excercise;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tester {
+    public static void main(String[] args) {
+        List<String> list1 = new ArrayList<String>();//line 1
+        List<String > list2 = list1;//line 2
+        list2.add(new String("ram"));//line 3
+        System.out.println(list2.size());//line 4
+    }
+}
+
+
+3.
+package com.day9.excercise;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestGenericConversion {
+    public static void main(String s[ ]){
+        List<String> list=new ArrayList<String>( );
+        list.add("one");
+        /*list.add(2);*/
+        System.out.println(list.get(0).length());
+}
+}
+
+
+4.
+package com.day9.excercise;
+
+import java.util.HashSet;
+
+public class Test {
+    public static void main(String[] args) {
+        Integer a = new Integer(4);
+        Integer b = new Integer(8);
+        Integer c = new Integer(4);
+        HashSet hs = new HashSet();
+        hs.add(a);
+        hs.add(b);
+        hs.add(c);
+        System.out.println(hs);
+    }
+}
+
+
+5.
+package com.day9.excercise;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListManager {
+    public static void main(String[] args) {
+        ArrayList<Integer> arr1 = new ArrayList<Integer>();
+        arr1.add(1);
+        arr1.add(2);
+        arr1.add(3);
+        arr1.add(4);
+        arr1.add(5);
+        arr1.add(6);
+        System.out.println("Array list 1 are "+arr1);
+        ArrayList<Integer> arr2 = new ArrayList<Integer>();
+        arr2.add(1);
+        arr2.add(2);
+        arr2.add(3);
+        arr2.add(4);
+
+        System.out.println("Array list 2 are "+arr2);
+        arr1.removeAll(arr2);
+        System.out.println("after the removing the elements "+arr1);
+    }
+}
+
+
+
+6.
+package com.day9.excercise;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ListManager1 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("Suraj");
+        list.add("Ajay");
+        list.add("Kabir");
+        list.add("Ram");
+        list.add("Sujan");
+        list.add("Vjay");
+        System.out.println("Before sorting "+list);
+        Collections.sort(list);
+        System.out.println("After sorting "+list);
+    }
+    }
+
+
+
+7.
+package com.day9.excercise;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class MapManager {
+    public static void main(String[] args) {
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put("suhas",10);
+        map.put("ram",30);
+        map.put("laxman",40);
+        map.put("markram",20);
+        map.put("veera",70);
+        map.put("zadran",90);
+        System.out.println(map);
+        System.out.println("enter the name to be searched get key");
+        Scanner sc = new Scanner(System.in);
+        String key = sc.next();
+        if (map.containsKey(key)){
+            Integer a = map.get(key);
+            System.out.println("value for key " +key+ " is " +a);
+        }
+        else
+        {
+            System.out.println("wrong choice ");
+        }
+    }
+}
+
+
+
+8.
+package com.day9.excercise;
+
+public class AgeCalculator {
+    static void findAge(int current_date, int current_month,
+                        int current_year, int birth_date,
+                        int birth_month, int birth_year)
+    {
+        int month[] = { 31, 28, 31, 30, 31, 30, 31,
+                31, 30, 31, 30, 31 };
+
+        if (birth_date > current_date) {
+            current_month = current_month - 1;
+            current_date = current_date + month[birth_month - 1];
+        }
+
+        if (birth_month > current_month) {
+            current_year = current_year - 1;
+            current_month = current_month + 12;
+        }
+
+        // calculate date, month, year
+        int calculated_date = current_date - birth_date;
+        int calculated_month = current_month - birth_month;
+        int calculated_year = current_year - birth_year;
+
+        // print the present age
+        System.out.println("Present Age");
+        System.out.println("Years: " + calculated_year +
+                " Months: " + calculated_month + " Days: " +
+                calculated_date);
+    }
+    public static void main(String[] args)
+    {
+        // present date
+        int current_date = 2;
+        int current_month = 12;
+        int current_year = 2021;
+
+        // birth dd// mm// yyyy
+        int birth_date = 28;
+        int birth_month = 01;
+        int birth_year = 2000;
+
+        // function call to print age
+        findAge(current_date, current_month, current_year,
+                birth_date, birth_month, birth_year);
+    }
+}
+
+
+
+9.
+package com.day9.excercise;
+
+import java.util.Date;
+
+public class DateGenerator {
+    public static void main(String[] args) {
+        Date date = new Date();
+        System.out.println("Todays date is "+date);
+    }
+}
+
+
+
+10.
+package com.day9.excercise;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+
+public class UniqueCollection {
+    public static void main(String[] args) {
+        ArrayList<String> ls = new ArrayList<String>();
+        ls.add("One");
+        ls.add("Two");
+        ls.add("Three");
+        ls.add("Four");
+        ls.add("One");
+        ls.add("five");
+        System.out.println("Before sorting "+ls );
+        LinkedHashSet<String> hs = new LinkedHashSet<>(ls);
+        System.out.println("After sorting unique values ");
+        for(String strnumber : hs)
+            System.out.println(strnumber);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
