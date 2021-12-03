@@ -1,0 +1,483 @@
+package com.day10;
+
+import java.time.LocalDate;
+import java.util.Objects;
+
+public class Employee implements Comparable<Employee>{
+    private int id;
+    private String name;
+    private double salary;
+    private LocalDate joiningDate;
+
+    public Employee(int id, String name, double salary, LocalDate joiningDate) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.joiningDate = joiningDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public double getSalary() {
+        return salary;
+    }
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+    @Override
+    public int compareTo(Employee anotherEmployee) {
+        return this.getId() - anotherEmployee.getId();
+    }
+    // Two employees are equal if their IDs are equal
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
+package com.day10;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ComparableExample {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1010, "Rajeev", 100000.00, LocalDate.of(2010, 7, 10)));
+        employees.add(new Employee(1004, "Chris", 95000.50, LocalDate.of(2017, 3, 19)));
+        employees.add(new Employee(1015, "David", 134000.00, LocalDate.of(2017, 9, 28)));
+        System.out.println("Employees (Before Sorting) : " + employees);
+        // This will use the `compareTo()` method of the `Employee` class to compare two employees and sort them.
+        Collections.sort(employees);
+
+        System.out.println("\nEmployees (After Sorting) : " + employees);
+    }
+}
+
+
+
+package com.day10;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class ComparatorExample {
+        public static void main(String[] args){
+            List<Employee> employees = new ArrayList<>();
+
+            employees.add(new Employee(1010, "Rajeev", 100000.00, LocalDate.of(2010, 7, 10)));
+            employees.add(new Employee(1004, "Chris", 95000.50, LocalDate.of(2017, 3, 19)));
+            employees.add(new Employee(1015, "David", 134000.00, LocalDate.of(2017, 9, 28)));
+            employees.add(new Employee(1009, "Steve", 100000.00, LocalDate.of(2016, 5, 18)));
+
+            System.out.println("Employees : " + employees);
+            // Sort employees by Name
+            Comparator<Employee> employeeNameComparator = new Comparator<Employee>() {
+                @Override
+                public int compare(Employee e1, Employee e2) {
+                    return e1.getName().compareTo(e2.getName());
+                }
+            };
+
+        /*
+        The above Comparator can also be written using lambda expression like so =>
+        employeeNameComparator = (e1, e2) -> e1.getName().compareTo(e2.getName());
+
+        Which can be shortened even further using Java 8 Comparator default method
+        employeeNameComparator = Comparator.comparing(Employee::getName)
+        */
+
+            Collections.sort(employees, employeeNameComparator);
+            System.out.println("\nEmployees (Sorted by Name) : " + employees);
+        }}
+
+
+package com.day10;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+public class LinkedListExample {
+    public static void main(String[] args) {
+        // Creating a LinkedList
+        LinkedList<String> friends = new LinkedList<>();
+
+        // Adding new elements to the end of the LinkedList using add() method.
+        friends.add("Rajeev");
+        friends.add("John");
+        friends.add("David");
+        friends.add("Chris");
+        System.out.println("Initial LinkedList : " + friends);
+        // Adding an element at the specified position in the LinkedList
+        friends.add(3, "Lisa");
+        System.out.println("After add(3, \"Lisa\") : " + friends);
+        // Adding an element at the beginning of the LinkedList
+        friends.addFirst("Steve");
+        System.out.println("After addFirst(\"Steve\") : " + friends);
+
+        // Adding an element at the end of the LinkedList (This method is equivalent to the add() method)
+        friends.addLast("Jennifer");
+        System.out.println("After addLast(\"Jennifer\") : " + friends);
+
+        // Adding all the elements from an existing collection to the end of the LinkedList
+        List<String> familyFriends = new ArrayList<>();
+        familyFriends.add("Jesse");
+        familyFriends.add("Walt");
+
+        friends.addAll(familyFriends);
+        System.out.println("After addAll(familyFriends) : " + friends);
+    }
+
+    }
+
+
+package com.day10;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class QueueExample {
+    public static void main(String[] args) {
+        // Create and initialize a Queue using a LinkedList
+        Queue<String> waitingQueue = new LinkedList<>();
+        // Adding new elements to the Queue (The Enqueue operation)
+        waitingQueue.add("Rajeev");
+        waitingQueue.add("Chris");
+        waitingQueue.add("John");
+        waitingQueue.add("Mark");
+        waitingQueue.add("Steven");
+        System.out.println("WaitingQueue : " + waitingQueue);
+        // Removing an element from the Queue using remove() (The Dequeue operation)
+        // The remove() method throws NoSuchElementException if the Queue is empty
+        String name = waitingQueue.remove();
+        System.out.println("Removed from WaitingQueue : " + name + " | New WaitingQueue : " + waitingQueue);
+// Removing an element from the Queue using poll()
+        // The poll() method is similar to remove() except that it returns null if the Queue is empty.
+        name = waitingQueue.poll();
+        System.out.println("Removed from WaitingQueue : " + name + " | New WaitingQueue : " + waitingQueue);
+    }
+}
+
+
+package com.day10;
+
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+public class TreeSetExample {
+    public static void main(String[] args) {
+        // Creating a TreeSet
+        SortedSet<String> fruits = new TreeSet<>();
+
+        // Adding new elements to a TreeSet
+        fruits.add("Banana");
+        fruits.add("Apple");
+        fruits.add("Pineapple");
+        fruits.add("Orange");
+
+        System.out.println("Fruits Set : " + fruits);
+
+        // Duplicate elements are ignored
+        fruits.add("Apple");
+        System.out.println("After adding duplicate element \"Apple\" : " + fruits);
+
+        // This will be allowed because it's in lowercase.
+        fruits.add("banana");
+        System.out.println("After adding \"banana\" : " + fruits);
+    }
+}
+
+
+package com.day10;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+public class StreamCoreOperations {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        List<String> memberNames = new ArrayList<>();
+        memberNames.add("Lina");
+        memberNames.add("Lata");
+        memberNames.add("Rekha");
+        memberNames.add("Rahul");
+        memberNames.add("Mansi");
+        memberNames.add("Vidya");
+        memberNames.add("Priyanka");
+        memberNames.add("Sarita");
+//Intermediate operations return the stream itself so you can chain multiple
+        //method calls in a row.
+        // Stream.filter()
+//Filter accepts a predicate to filter all elements of the stream. This operation is intermediate which enables us to call another stream operation (e.g. forEach) on the result.
+        memberNames.stream().filter((s) -> s.startsWith("R"))
+                .forEach(System.out::println);
+//Stream.map()
+//map converts each element into another object via the given function
+        memberNames.stream().filter((s) -> s.startsWith("A"))
+                .map(String::toUpperCase)
+                .forEach(System.out::println);
+
+
+//Sorted is an intermediate operation which returns a sorted view of the stream.
+//The elements are sorted in natural order unless you pass a custom Comparator.
+        System.out.println("Sorting..");
+        memberNames.stream().sorted()
+                .map(String::toUpperCase)
+                .forEach(System.out::println);
+//Keep in mind that sorted does only create a sorted view of the stream without manipulating the ordering of the backed collection.
+//The ordering of memberNames is untouched.
+
+        //Terminal operations
+
+        //Terminal operations return a result of a certain type instead of again
+        //a Stream.
+
+        //Stream.forEach()
+
+        memberNames.forEach(System.out::println);
+        //Stream.collect()
+        //	collect() method used to receive elements from a stream and store them in a collection and mentioned in parameter function.
+        List<String> memNamesInUppercase = memberNames.stream().sorted()
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+
+        System.out.println(memNamesInUppercase);
+
+        //Stream.match()
+//Various matching operations can be used to check whether a
+//certain predicate matches the stream. All of those operations are
+        //terminal and return a boolean result.
+
+        boolean matchedResult = memberNames.stream()
+                .anyMatch((s) -> s.startsWith("A"));
+
+        System.out.println(matchedResult);
+
+        matchedResult = memberNames.stream()
+                .allMatch((s) -> s.startsWith("A"));
+
+        System.out.println(matchedResult);
+
+        matchedResult = memberNames.stream()
+                .noneMatch((s) -> s.startsWith("A"));
+
+        System.out.println(matchedResult);
+
+//Stream.count()
+
+//Count is a terminal operation returning
+//the number of elements in the stream as a long.
+
+        long totalMatched = memberNames.stream()
+                .filter((s) -> s.startsWith("A"))
+                .count();
+
+        System.out.println(totalMatched);
+//Stream.reduce()
+
+//This terminal operation performs
+//a reduction on the elements of the stream with the given function.
+//The result is an Optional holding the reduced value.
+
+        Optional<String> reduced = memberNames.stream()
+                .reduce((s1,s2) -> s1 + "#" + s2);
+
+        reduced.ifPresent(System.out::println);
+//Stream Though, stream operations are performed on all elements inside a
+//collection satisfying a predicate, It is often desired to break
+//the operation whenever a matching element is encountered during iteration. In external iteration, you will do with if-else block.
+//In internal iteration, there are certain methods you can use for this purposeshort-circuit operations
+
+//Stream.anyMatch()
+        boolean matched = memberNames.stream()
+                .anyMatch((s) -> s.startsWith("A"));
+
+        System.out.println(matched);
+//Stream.findFirst()
+//It will return first element from stream and then will not process
+//any more element.
+        String firstMatchedName = memberNames.stream()
+                .filter((s) -> s.startsWith("L"))
+                .findFirst().get();
+
+        System.out.println(firstMatchedName);
+
+    }
+}
+
+
+package com.day10;
+
+import java.util.Objects;
+
+public class Product {
+        private int prodId;
+        private String prodName;
+        private int qty;
+        private int price;
+
+        public Product(int prodId, String prodName, int qty, int price) {
+            this.prodId = prodId;
+            this.prodName = prodName;
+            this.qty = qty;
+            this.price = price;
+        }
+
+        public int getProdId() {
+            return prodId;
+        }
+
+        public void setProdId(int prodId) {
+            this.prodId = prodId;
+        }
+
+        public String getProdName() {
+            return prodName;
+        }
+
+        public void setProdName(String prodName) {
+            this.prodName = prodName;
+        }
+
+        public int getQty() {
+            return qty;
+        }
+
+        public void setQty(int qty) {
+            this.qty = qty;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        public void setPrice(int price) {
+            this.price = price;
+        }
+    public int compareTo(Product newProduct) {
+        return this.getProdId() - newProduct.getProdId();
+    }
+    // Two employees are equal if their IDs are equal
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return prodId == product.prodId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(prodId);
+    }
+
+        @Override
+        public String toString() {
+            return "Product{" +
+                    "prodId=" + prodId +
+                    ", prodName='" + prodName + '\'' +
+                    ", qty=" + qty +
+                    ", price=" + price +
+                    '}';
+        }
+    }
+
+
+package com.day10;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class ProductComp {
+    public static void main(String[] args) {
+        List<Product> products = new ArrayList<>();
+        products.add(new Product(2, "shampoo", 10, 150));
+        products.add(new Product(1, "mobile", 10, 250));
+        products.add(new Product(4, "laptops", 2, 80000));
+        products.add(new Product(3, "books", 10, 450));
+        System.out.println("Products : " + products);
+
+        Comparator<Product> productNameComparator = new Comparator<Product>() {
+            public int compare(Product p1, Product p2) {
+                return p1.getProdName().compareTo(p2.getProdName());
+            }
+        };
+        Collections.sort(products,productNameComparator);
+        System.out.println("\nProducts (Sorted by Name) : " + products);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", joiningDate=" + joiningDate +
+                '}';  }
+}
