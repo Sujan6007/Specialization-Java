@@ -1,0 +1,87 @@
+use test;
+create table x(
+id int,
+name1 varchar(20)
+);
+
+
+drop table y;
+create table y(
+id int,
+name2 varchar(20)
+);
+
+insert into x values (1,'x1'); 
+insert into x values (2,'x2'); 
+insert into x values (3,'x3'); 
+insert into x values (4,'x4'); 
+insert into x values (5,'x5'); 
+insert into x values (6,null);
+
+insert into y values (1,'y1'); 
+insert into y values (2,'y2'); 
+insert into y values (3,'y3'); 
+insert into y values (4,'y4'); 
+insert into y  values (5,'y5'); 
+
+select * from x;
+
+
+
+use test;
+-- 1 Write a SQL statement to create a simple table countries including columns country_id,country_name and region_id.
+CREATE TABLE countries( 
+COUNTRY_ID varchar(2),
+COUNTRY_NAME varchar(40),
+REGION_ID decimal(10,0)
+);
+
+desc countries;
+
+-- 2 Write a SQL statement to create a simple table countries including columns country_id,country_name and region_id which is already exists.
+CREATE TABLE IF NOT EXISTS countries ( 
+COUNTRY_ID varchar(2),
+COUNTRY_NAME varchar(40),
+REGION_ID decimal(10,0)
+);
+
+-- 3  Write a SQL statement to create the structure of a table dup_countries similar to countries.
+CREATE TABLE IF NOT EXISTS dup_countries
+LIKE countries;
+
+-- 4 Write a SQL statement to create a duplicate copy of countries table including structure and data by name dup_countries.
+CREATE TABLE IF NOT EXISTS dup_countries
+AS SELECT * FROM  countries;
+
+-- 5 Write a SQL statement to create a table countries set a constraint NOT NULL.
+CREATE TABLE IF NOT EXISTS countries ( 
+COUNTRY_ID varchar(2) NOT NULL,
+COUNTRY_NAME varchar(40) NOT NULL,
+REGION_ID decimal(10,0) NOT NULL
+);
+
+-- 6 Write a SQL statement to create a table named jobs including columns job_id, job_title, min_salary, max_salary and check whether the max_salary amount exceeding the upper limit 25000.
+CREATE TABLE IF NOT EXISTS jobs ( 
+JOB_ID varchar(10) NOT NULL , 
+JOB_TITLE varchar(35) NOT NULL, 
+MIN_SALARY decimal(6,0), 
+MAX_SALARY decimal(6,0) 
+CHECK(MAX_SALARY<=25000)
+);
+
+
+
+
+
+
+select * from y;
+
+select x.id,x.name1,y.id,y.name2 from x inner join y on x.id=y.id;
+
+select * from x cross join y;
+
+select x.name1,y.name2 from x left join y on x.id=y.id;
+
+select * from x right join y on x.id=y.id;
+
+select x.name1,y.name2  from customer as c1,customer as c2 where c1.fname=c2.fname;
