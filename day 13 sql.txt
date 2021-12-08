@@ -1,0 +1,313 @@
+package com.test.springconstructor;
+
+public class Ticket {
+    private int id;
+    private String ticketdate;
+    public Ticket() {System.out.println("Ticket is "+ ticketdate);}
+    public Ticket(int id) {this.id = id;}
+    public Ticket(String ticketdate) {  this.ticketdate = ticketdate;}
+    public Ticket(int id, String ticketdate) {
+        this.id = id;
+        this.ticketdate = ticketdate;
+    }
+    void display(){
+        System.out.println(id+" "+ticketdate);
+    }
+}
+
+
+package com.test.springconstructor;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+public class MainTicket {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Ticket t1=(Ticket)context.getBean("ticket");
+        t1.display();
+    }
+}
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="ticket" class="com.test.springconstructor.Ticket">
+        <constructor-arg index = "0" value = "101"/>
+        <constructor-arg index = "1" value = "24/9/2019"/>
+    </bean>
+</beans>
+
+----------------------------------------------------------------
+
+package com.test.setterbased;
+
+public class Student {
+    private int st_id;
+    private String st_name;
+    private String st_course;
+
+    public void setSt_id(int st_id) {
+        this.st_id = st_id;
+    }
+
+    public int getSt_id() {
+        return st_id;
+    }
+
+    public void setSt_name(String st_name) {
+        this.st_name = st_name;
+    }
+    public String getSt_name() {
+        return st_name;
+    }
+    public void setSt_course(String st_course) {
+        this.st_course = st_course;
+    }
+    public String getSt_course() {
+        return st_course;
+    }
+    void display(){
+        System.out.println(st_id+" "+st_name+" "+st_course);
+    }
+}
+
+package com.test.setterbased;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class StudentMain {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("setterbeans.xml");
+
+        Student st1=(Student)context.getBean("student");
+        st1.display();
+    }
+}
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="student" class="com.test.setterbased.Student">
+        <property name="st_id">
+            <value>1</value>
+        </property>
+        <property name="st_name">
+            <value>Tom</value>
+        </property>
+        <property name="st_course">
+            <value>Spring Course</value>
+        </property>
+    </bean>
+</beans>
+
+
+-------------------------------------------------------------------------------------
+
+package com.test.innerbean;
+
+public class Product {
+    private String item;
+    private String price;
+    private String address;
+
+    public String getItem() {
+        return item;
+    }
+    public void setItem(String item) {
+        this.item = item;
+    }
+    public String getPrice() {
+        return price;
+    }
+    public void setPrice(String price) {
+        this.price = price;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+}
+
+
+package com.test.innerbean;
+
+public class InvoiceGenerator {
+    private Product prod_order;
+
+    public InvoiceGenerator(Product prod_order) {
+        this.prod_order = prod_order;
+    }
+
+    public void setProd_order(Product prod_order) {
+        this.prod_order = prod_order;
+    }
+    public void generateInvoice(){
+        System.out.println("Getting Orders details...: "+prod_order.getItem());
+    }
+}
+
+
+package com.test.innerbean;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainInvoiceGenerator {
+    public static void main(String a[]) {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("innerbean.xml");
+        InvoiceGenerator invoice = (InvoiceGenerator) context.getBean("invoicebean");
+        invoice.generateInvoice();
+    }
+}
+
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="invoicebean" class="com.test.innerbean.InvoiceGenerator">
+        <constructor-arg>
+            <bean class="com.test.innerbean.Product">
+                <property name="item" value="Book"/>
+                <property name="price" value="450.60"/>
+                <property name="address" value="Pune"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+</beans>
+
+
+-----------------------------------------------------------------------------------
+
+package com.test.hello;
+
+public class HelloWorld {
+    private String message;
+    public void setMessage(String message){
+        this.message  = message;
+    }
+    public void getMessage(){
+        System.out.println("Your Message : " + message);
+    }
+}
+
+
+package com.test.hello;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        HelloWorld obj = (HelloWorld)  context.getBean("helloWorld");
+        obj.getMessage();
+    }
+}
+
+
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id = "helloWorld" class = " com.test.hello.HelloWorld">
+        <property name = "message" value = "Hello World!"/>
+    </bean>
+</beans>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>Project2</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.1.6.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+</project>
+
+
+
+
+
+
+
+
+
+
+
