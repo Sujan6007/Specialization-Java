@@ -1,0 +1,381 @@
+package com.test.singleton;
+
+public class SampleBean {
+    public SampleBean()
+    {
+        System.out.println("Sample Bean instance is created......");
+    }
+}
+
+
+
+package com.test.singleton;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+public class SingletonBeanConfig {
+    @Bean
+    @Scope(value="singleton")
+    public SampleBean getBean()
+    {
+        return new SampleBean();
+    }
+}
+
+
+
+
+
+package com.test.singleton;
+
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class MainSingletonApp {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+        ctx.register(SingletonBeanConfig.class);
+        ctx.refresh();
+
+        SampleBean bean1 = ctx.getBean(SampleBean.class);
+        System.out.println(bean1.hashCode());
+
+        SampleBean bean2 = ctx.getBean(SampleBean.class);
+        System.out.println(bean2.hashCode());
+        ctx.close();
+    }
+}
+
+
+
+
+------------------------------------------------------------------------------------------
+
+package com.test.Beans;
+
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+public class ClassObject implements DisposableBean, InitializingBean {
+    private String name;
+
+    ClassObject() {
+        System.out.println("We are getting the Constructor of ClassObject beaninvoked!");
+    }
+    public String getName() {
+        return name;  
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //Bean initialization code
+
+    public void afterPropertiesSet() throws Exception {
+
+        System.out.println("Initializing method of ClassObject bean is invoked!");
+    }
+
+    //Bean destruction code
+
+    public void destroy() throws Exception {
+        System.out.println("We are getting the Destroy method of ClassObject bean invoked!");
+    }}
+
+
+package com.test.Beans;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.test.Beans.ClassObject;
+public class MainApp {
+    public static void main(String[] args) {
+// TODO Auto-generated method stub
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+
+        ClassObject obj = context.getBean("classobject",ClassObject.class);
+        System.out.println("Name= " + obj.getName());
+        // Closing the context object.
+        context.close();
+    }
+}
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="classobject" class="com.test.Beans.ClassObject">
+        <property name="name" value="Spring Bean object" />
+    </bean>
+</beans>
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+package com.test.beans1;
+
+public class Book {
+    private int BookId;
+    private String Bookname;
+    private String publisher;
+
+    public int getBookId() {
+        return BookId;
+    }
+    public void setBookId(int bookId) {
+        BookId = bookId;
+    }
+    public String getBookname() {
+        return Bookname;
+    }
+    public void setBookname(String bookname) {
+        Bookname = bookname;
+    }
+    public String getPublisher() {
+        return publisher;
+    }
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+    @Override
+    public String toString(){
+        return "The Book details are "+ this.BookId+" | "+this.Bookname+" | "+this.publisher;
+    }
+}
+
+
+
+package com.test.beans1;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/*import java.awt.print.Book;*/
+
+public class Test {
+    public static void main(String a[]){
+
+        ConfigurableApplicationContext context
+                = new ClassPathXmlApplicationContext("beaninheritance.xml");
+                Book mybook = (Book) context.getBean("myBookBean");
+        System.out.println(mybook.toString());
+    }
+}
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="baseBookBean" class="com.test.beans1.Book">
+        <property name="publisher" value="IBH" />
+    </bean>
+    <bean id="myBookBean" parent="baseBookBean">
+        <property name="BookId" value="3331" />
+        <property name="Bookname" value="Cpp" />
+    </bean>
+</beans>
+
+
+------------------------------------------------------------------
+
+package com.beanprocess.beans;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+
+public class SmapleBeanInitProcessor implements BeanPostProcessor {
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName)
+            throws BeansException {
+        System.out.println("Before initialization: "+beanName);
+        return bean;
+    }
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName)
+            throws BeansException {
+        System.out.println("After initialization: "+beanName);
+        return bean;
+    }
+
+}
+
+
+package com.beanprocess.beans;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class TestConnection {
+    private HttpURLConnection connection;
+    private String url;
+    public void setUrl(String url){
+        this.url = url;
+    }
+    public String getUrl()
+    {
+        return url;
+    }
+    @PostConstruct
+    public void init(){
+        System.out.println("Inside init() method...");
+        URL obj;
+        try {
+            obj = new URL(this.url);
+//initialize http connection here
+            this.connection = (HttpURLConnection)
+                    obj.openConnection();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();}
+    }
+    @PreDestroy
+    public void destroy(){
+        try{
+            System.out.println("Inside destroy() method...");
+            if(this.connection != null) {
+                connection.disconnect();
+            }
+        }catch(Exception ex){
+        }}
+    public void readData(){
+        try {
+            int responseCode = this.connection.getResponseCode();
+            System.out.println("Responsing: "+responseCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }}
+}
+
+
+
+
+package com.beanprocess.beans;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.beanprocess.beans.TestConnection;
+
+public class TestMain {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context  = new ClassPathXmlApplicationContext("postprocessor.xml");
+        TestConnection networkMng = (TestConnection) context.getBean("connectionmanager");
+        networkMng.readData();
+        context.close();
+    }}
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <context:annotation-config />
+
+    <bean id="connectionmanager" class="com.beanprocess.beans.TestConnection">
+        <property name="url" value="http://www.google.com"/>
+    </bean>
+
+    <bean class="com.beanprocess.beans.SmapleBeanInitProcessor" />
+</beans>
+
+----------------------------------------------------------------------------------------------------------
+
+package com.autowire.beans;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Employee {
+    private String fullName;
+    private DepartmentBean departmentBean;
+
+    public DepartmentBean getDepartmentBean() {
+        return departmentBean;
+    }
+    public void setDepartmentBean(DepartmentBean departmentBean) {
+        this.departmentBean = departmentBean;
+    }
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+}
+
+
+package com.autowire.beans;
+
+    public class DepartmentBean {
+        private String name;
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+}
+
+
+
+package com.autowire.beans;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class TestAutowire {
+    public static void main(String[] args) {
+
+        ApplicationContext context =   new ClassPathXmlApplicationContext("autowire.xml");
+
+                Employee employee = (Employee) context.getBean ("employee");
+
+        System.out.println(employee.getFullName());
+
+        System.out.println(employee.getDepartmentBean().getName());
+    }
+}
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="com.autowire" />
+
+    <bean id="employee" class="com.autowire.beans.Employee" autowire="byName">
+        <property name="fullName" value="Shantanu Mukherjee"/>
+    </bean>
+
+    <bean id="departmentBean" class=" com.autowire.beans.DepartmentBean" >
+        <property name="name" value="Logistics" />
+    </bean>
+</beans>
+
+
+
+
